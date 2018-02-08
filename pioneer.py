@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import * 
 import random
 
-class Hero(object):
+class Hero():
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -18,52 +18,69 @@ class Hero(object):
         scaled_hero = pygame.transform.scale(hero_image, (75, 75))
         screen.blit(scaled_hero, (self.x, self.y))
 
+class Texture():
+    def __init__(self, image, id):
+        self.image = image
+        self.id = id
 
 
 def main():
     width = 15
     height = 15
     TILESIZE = 40
-    DIRT = 0
-    GRASS = 1
-    WATER = 2
-    SNOW = 3 
-    SAND = 4
-    MOUNTAIN = 5
-    tiles = [DIRT, GRASS, WATER, SNOW, SAND, MOUNTAIN]
+
+    dirt = Texture(pygame.image.load('images/textures/dirt.jpg'), 0)
+    grass = Texture(pygame.image.load('images/textures/grass.jpg'), 1)
+    water = Texture(pygame.image.load('images/textures/water.jpg'), 2)
+    snow = Texture(pygame.image.load('images/textures/snow.jpg'), 3)
+    sand = Texture(pygame.image.load('images/textures/sand.jpg'), 4)
+    mountain = Texture(pygame.image.load('images/textures/mountain.jpg'), 5)
+    
+    # DIRT = 0
+    # GRASS = 1
+    # WATER = 2
+    # SNOW = 3 
+    # SAND = 4
+    # MOUNTAIN = 5
+    # tiles = [DIRT, GRASS, WATER, SNOW, SAND, MOUNTAIN]
 
     # tilemap = [
     #     [DIRT for w in range(width)] for h in range(height)
     # ]
-
+    
+    
+    # tilemap = [
+    #     [snow.image, mountain.image],[dirt.image, snow.image]
+    # ]
+    
     tilemap = [
-        [MOUNTAIN,MOUNTAIN,WATER,WATER,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN],
-        [MOUNTAIN,MOUNTAIN,WATER,WATER,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN],
-        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
-        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
-        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
-        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,SNOW,MOUNTAIN,MOUNTAIN,MOUNTAIN,SNOW,GRASS,GRASS,GRASS],
-        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,SNOW,MOUNTAIN,MOUNTAIN,MOUNTAIN,SNOW,GRASS,GRASS,GRASS],
-        [WATER,SAND,SAND,WATER,GRASS,GRASS,GRASS,GRASS,SNOW,SNOW,SNOW,SNOW,SNOW,GRASS,GRASS],
-        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
-        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,WATER,WATER,SAND,GRASS,GRASS,DIRT,DIRT],
-        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,WATER,WATER,SAND,GRASS,GRASS,GRASS,GRASS],
-        [SAND,SAND,SAND,SAND,SAND,GRASS,DIRT,GRASS,GRASS,WATER,SAND,SAND,GRASS,GRASS,GRASS],
-        [SAND,SAND,SAND,SAND,SAND,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
-        [DIRT,DIRT,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
-        [DIRT,DIRT,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
+        [mountain.image,mountain.image,water.image,water.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image],
+        [mountain.image,mountain.image,water.image,water.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image],
+        [snow.image,snow.image,water.image,water.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image],
+        [snow.image,snow.image,water.image,water.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image],
+        [snow.image,snow.image,water.image,water.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image,snow.image],
+        [water.image,water.image,water.image,water.image,grass.image,grass.image,grass.image,snow.image,mountain.image,mountain.image,mountain.image,snow.image,grass.image,grass.image,grass.image],
+        [water.image,water.image,water.image,water.image,grass.image,grass.image,grass.image,snow.image,mountain.image,mountain.image,mountain.image,snow.image,grass.image,grass.image,grass.image],
+        [water.image,sand.image,sand.image,water.image,grass.image,grass.image,grass.image,grass.image,snow.image,snow.image,snow.image,snow.image,snow.image,grass.image,grass.image],
+        [water.image,water.image,water.image,water.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image],
+        [water.image,water.image,water.image,water.image,grass.image,grass.image,grass.image,grass.image,water.image,water.image,sand.image,grass.image,grass.image,dirt.image,dirt.image],
+        [water.image,water.image,water.image,water.image,grass.image,grass.image,grass.image,grass.image,water.image,water.image,sand.image,grass.image,grass.image,grass.image,grass.image],
+        [sand.image,sand.image,sand.image,sand.image,sand.image,grass.image,dirt.image,grass.image,grass.image,water.image,sand.image,sand.image,grass.image,grass.image,grass.image],
+        [sand.image,sand.image,sand.image,sand.image,sand.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image],
+        [dirt.image,dirt.image,dirt.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image],
+        [dirt.image,dirt.image,dirt.image,grass.image,grass.image,grass.image,grass.image,grass.image,dirt.image,grass.image,grass.image,grass.image,grass.image,grass.image,grass.image],
     ]
     
     BLACK = (0, 0, 0)
 
-    textures = {
-        DIRT: pygame.transform.scale(pygame.image.load('images/textures/dirt.jpg'), (60,60)),
-        GRASS: pygame.transform.scale(pygame.image.load('images/textures/grass.jpg'), (60,60)),
-        WATER: pygame.transform.scale(pygame.image.load('images/textures/water.jpg'), (60,60)),
-        SNOW: pygame.transform.scale(pygame.image.load('images/textures/snow.jpg'), (60,60)),
-        MOUNTAIN: pygame.image.load('images/textures/mountain.jpg'),
-        SAND: pygame.transform.scale(pygame.image.load('images/textures/sand.jpg'), (60,60)),
-    }
+    # textures = {
+    #     DIRT: pygame.transform.scale(pygame.image.load('images/textures/dirt.jpg'), (60,60)),
+    #     GRASS: pygame.transform.scale(pygame.image.load('images/textures/grass.jpg'), (60,60)),
+    #     WATER: pygame.transform.scale(pygame.image.load('images/textures/water.jpg'), (60,60)),
+    #     SNOW: pygame.transform.scale(pygame.image.load('images/textures/snow.jpg'), (60,60)),
+    #     MOUNTAIN: pygame.image.load('images/textures/mountain.jpg'),
+    #     SAND: pygame.transform.scale(pygame.image.load('images/textures/sand.jpg'), (60,60)),
+    # }
 
     pygame.init()
     pygame.font.init()
@@ -132,7 +149,7 @@ def main():
         #loop through each row
         for row in range(height):
             for column in range(width):
-                screen.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
+                screen.blit(tilemap[row][column], (column*TILESIZE,row*TILESIZE))
         
         screen.blit(label, (width * TILESIZE - 100,height * TILESIZE + 35))
         # Game display
