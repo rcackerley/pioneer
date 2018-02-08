@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import * 
 import random
 
 class Hero(object):
@@ -31,8 +32,26 @@ def main():
     MOUNTAIN = 5
     tiles = [DIRT, GRASS, WATER, SNOW, SAND, MOUNTAIN]
 
+    # tilemap = [
+    #     [DIRT for w in range(width)] for h in range(height)
+    # ]
+
     tilemap = [
-        [DIRT for w in range(width)] for h in range(height)
+        [MOUNTAIN,MOUNTAIN,WATER,WATER,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN],
+        [MOUNTAIN,MOUNTAIN,WATER,WATER,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN,MOUNTAIN],
+        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
+        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
+        [SNOW,SNOW,WATER,WATER,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW,SNOW],
+        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,SNOW,MOUNTAIN,MOUNTAIN,MOUNTAIN,SNOW,GRASS,GRASS,GRASS],
+        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,SNOW,MOUNTAIN,MOUNTAIN,MOUNTAIN,SNOW,GRASS,GRASS,GRASS],
+        [WATER,SAND,SAND,WATER,GRASS,GRASS,GRASS,GRASS,SNOW,SNOW,SNOW,SNOW,SNOW,GRASS,GRASS],
+        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
+        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,WATER,WATER,SAND,GRASS,GRASS,DIRT,DIRT],
+        [WATER,WATER,WATER,WATER,GRASS,GRASS,GRASS,GRASS,WATER,WATER,SAND,GRASS,GRASS,GRASS,GRASS],
+        [SAND,SAND,SAND,SAND,SAND,GRASS,DIRT,GRASS,GRASS,WATER,SAND,SAND,GRASS,GRASS,GRASS],
+        [SAND,SAND,SAND,SAND,SAND,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
+        [DIRT,DIRT,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
+        [DIRT,DIRT,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,DIRT,GRASS,GRASS,GRASS,GRASS,GRASS,GRASS],
     ]
     
     BLACK = (0, 0, 0)
@@ -47,26 +66,30 @@ def main():
     }
 
     pygame.init()
-    screen = pygame.display.set_mode((width * TILESIZE, height * TILESIZE))
+    pygame.font.init()
+    default_font = pygame.font.get_default_font()
+    font_renderer = pygame.font.Font(default_font, 15)
+    label = font_renderer.render('INVENTORY', 1, (255, 255,255))
+    screen = pygame.display.set_mode((width * TILESIZE, height * TILESIZE + 65))
     pygame.display.set_caption('Pioneer')
     clock = pygame.time.Clock()
 
-    for rw in range(height):
-        for cl in range(width):
-            randomNumber = random.randint(0,15)
-            if randomNumber == 0:
-                tile = MOUNTAIN
-            elif randomNumber == 1 or randomNumber == 2:
-                tile = WATER
-            elif randomNumber >= 3 and randomNumber <= 7:
-                tile = GRASS
-            elif randomNumber == 8 or randomNumber == 9:
-                tile = DIRT
-            elif randomNumber >= 10 or randomNumber <= 13:
-                tile = SNOW
-            else:
-                tile = SAND
-            tilemap[rw][cl] = tile
+    # for rw in range(height):
+    #     for cl in range(width):
+    #         randomNumber = random.randint(0,15)
+    #         if randomNumber == 0:
+    #             tile = MOUNTAIN
+    #         elif randomNumber == 1 or randomNumber == 2:
+    #             tile = WATER
+    #         elif randomNumber >= 3 and randomNumber <= 7:
+    #             tile = GRASS
+    #         elif randomNumber == 8 or randomNumber == 9:
+    #             tile = DIRT
+    #         elif randomNumber >= 10 or randomNumber <= 13:
+    #             tile = SNOW
+    #         else:
+    #             tile = SAND
+    #         tilemap[rw][cl] = tile
 
     # Game initialization
     hero = Hero(250, 250)
@@ -110,7 +133,8 @@ def main():
         for row in range(height):
             for column in range(width):
                 screen.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
-
+        
+        screen.blit(label, (width * TILESIZE - 100,height * TILESIZE + 35))
         # Game display
         hero.render(screen)
         pygame.display.update()
