@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Hero(object):
     def __init__(self, x, y):
@@ -15,17 +16,57 @@ class Hero(object):
         hero_image = pygame.image.load('images/Vikings/Viking3/Stand/0.png').convert_alpha()
         scaled_hero = pygame.transform.scale(hero_image, (75, 75))
         screen.blit(scaled_hero, (self.x, self.y))
-        
-    
+
+
+
 def main():
-    width = 500
-    height = 500
-    blue_color = (97, 159, 182)
+    width = 15
+    height = 15
+    TILESIZE = 40
+    DIRT = 0
+    GRASS = 1
+    WATER = 2
+    SNOW = 3 
+    SAND = 4
+    MOUNTAIN = 5
+    tiles = [DIRT, GRASS, WATER, SNOW, SAND, MOUNTAIN]
+
+    tilemap = [
+        [DIRT for w in range(width)] for h in range(height)
+    ]
+    
+    BLACK = (0, 0, 0)
+
+    textures = {
+        DIRT: pygame.transform.scale(pygame.image.load('images/textures/dirt.jpg'), (60,60)),
+        GRASS: pygame.transform.scale(pygame.image.load('images/textures/grass.jpg'), (60,60)),
+        WATER: pygame.transform.scale(pygame.image.load('images/textures/water.jpg'), (60,60)),
+        SNOW: pygame.transform.scale(pygame.image.load('images/textures/snow.jpg'), (60,60)),
+        MOUNTAIN: pygame.image.load('images/textures/mountain.jpg'),
+        SAND: pygame.transform.scale(pygame.image.load('images/textures/sand.jpg'), (60,60)),
+    }
 
     pygame.init()
-    screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption('My Game')
+    screen = pygame.display.set_mode((width * TILESIZE, height * TILESIZE))
+    pygame.display.set_caption('Pioneer')
     clock = pygame.time.Clock()
+
+    for rw in range(height):
+        for cl in range(width):
+            randomNumber = random.randint(0,15)
+            if randomNumber == 0:
+                tile = MOUNTAIN
+            elif randomNumber == 1 or randomNumber == 2:
+                tile = WATER
+            elif randomNumber >= 3 and randomNumber <= 7:
+                tile = GRASS
+            elif randomNumber == 8 or randomNumber == 9:
+                tile = DIRT
+            elif randomNumber >= 10 or randomNumber <= 13:
+                tile = SNOW
+            else:
+                tile = SAND
+            tilemap[rw][cl] = tile
 
     # Game initialization
     hero = Hero(250, 250)
@@ -64,7 +105,11 @@ def main():
         hero.update()
 
         # Draw background
-        screen.fill(blue_color)
+        screen.fill(BLACK)
+        #loop through each row
+        for row in range(height):
+            for column in range(width):
+                screen.blit(textures[tilemap[row][column]], (column*TILESIZE,row*TILESIZE))
 
         # Game display
         hero.render(screen)
