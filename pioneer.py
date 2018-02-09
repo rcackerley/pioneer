@@ -18,12 +18,13 @@ class Hero():
         scaled_hero = pygame.transform.scale(hero_image, (75, 75))
         screen.blit(scaled_hero, (self.x, self.y))
 
-class Texture(pygame.sprite.Sprite):
+class Texture(Rect):
     def __init__(self, image, id):
         self.image = image
         self.id = id
-        self.width = 40
-        self.height = 40
+        self.x = 0
+        self.y = 0
+
         
     
 
@@ -113,10 +114,11 @@ def main():
     #         tilemap[rw][cl] = tile
 
     # Game initialization
-    hero = Hero(250, 250)
+    hero = Hero(300, 300)
     hero_rect = Rect(250,250, 75,75)
     rect_x = 0
     rect_y = 0
+
     stop_game = False
 
     while not stop_game:
@@ -132,18 +134,39 @@ def main():
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = -5
                     rect_x = -5
-                    if hero_rect.colliderect(mountain):
-                        hero.speed_x = 0
-                        rect_x = 0
+                    # print hero_rect.colliderect(mountain)
+                    # print hero.x
+                    # print hero.y
+                    for hill in mountains:
+                        if hero_rect.colliderect(hill):
+                            hero.speed_x = 0
+                            rect_x = 0
+                    print mountains
+                        
                 elif event.key == pygame.K_RIGHT:
                     hero.speed_x = 5
                     rect_x = 5
+
+                    for hill in mountains:
+                        if hero_rect.colliderect(hill):
+                            hero.speed_x = 0
+                            rect_x = 0
                 elif event.key == pygame.K_UP:
                     hero.speed_y = -5
                     rect_y = -5
+
+                    for hill in mountains:
+                        if hero_rect.colliderect(hill):
+                            hero.speed_y = 0
+                            rect_y = 0
                 elif event.key == pygame.K_DOWN:
                     hero.speed_y = 5
                     rect_y = 5
+                    for hill in mountains:
+                        if hero_rect.colliderect(hill):
+                            hero.speed_y = 0
+                            rect_y = 0
+            
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = 0
@@ -166,16 +189,19 @@ def main():
         # Draw background
         screen.fill(BLACK)
         #loop through each row
+        mountains = []
         for row in range(height):
             for column in range(width):
                 screen.blit(tilemap[row][column], (column*TILESIZE,row*TILESIZE))
-        
+                if tilemap[row][column] == mountain.image:
+                    mountains.append(Rect(column * TILESIZE, row * TILESIZE, 40, 40))
+                    
         screen.blit(label, (width * TILESIZE - 100,height * TILESIZE + 35))
         # Game display
         hero.render(screen)
         pygame.display.update()
         clock.tick(60)
-
+    
     pygame.quit()
 
 if __name__ == '__main__':
