@@ -41,22 +41,7 @@ def main():
     sand = Texture(pygame.image.load('images/textures/sand.jpg'), 4)
     mountain = Texture(pygame.image.load('images/textures/mountain.jpg'), 5)
     
-    # DIRT = 0
-    # GRASS = 1
-    # WATER = 2
-    # SNOW = 3 
-    # SAND = 4
-    # MOUNTAIN = 5
-    # tiles = [DIRT, GRASS, WATER, SNOW, SAND, MOUNTAIN]
-
-    # tilemap = [
-    #     [DIRT for w in range(width)] for h in range(height)
-    # ]
     
-    
-    # tilemap = [
-    #     [snow.image, mountain.image],[dirt.image, snow.image]
-    # ]
     
     tilemap = [
         [mountain.image,mountain.image,water.image,water.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image,mountain.image],
@@ -77,15 +62,6 @@ def main():
     ]
     
     BLACK = (0, 0, 0)
-
-    # textures = {
-    #     DIRT: pygame.transform.scale(pygame.image.load('images/textures/dirt.jpg'), (60,60)),
-    #     GRASS: pygame.transform.scale(pygame.image.load('images/textures/grass.jpg'), (60,60)),
-    #     WATER: pygame.transform.scale(pygame.image.load('images/textures/water.jpg'), (60,60)),
-    #     SNOW: pygame.transform.scale(pygame.image.load('images/textures/snow.jpg'), (60,60)),
-    #     MOUNTAIN: pygame.image.load('images/textures/mountain.jpg'),
-    #     SAND: pygame.transform.scale(pygame.image.load('images/textures/sand.jpg'), (60,60)),
-    # }
 
     pygame.init()
     pygame.font.init()
@@ -115,7 +91,7 @@ def main():
 
     # Game initialization
     hero = Hero(300, 300)
-    hero_rect = Rect(250,250, 75,75)
+    hero_rect = Rect(300,300, 75,75)
     rect_x = 0
     rect_y = 0
 
@@ -137,11 +113,14 @@ def main():
                     # print hero_rect.colliderect(mountain)
                     # print hero.x
                     # print hero.y
+                    
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
                             hero.speed_x = 0
                             rect_x = 0
-                    print mountains
+                            print 'collision'
+                            break
+                    # print mountains
                         
                 elif event.key == pygame.K_RIGHT:
                     hero.speed_x = 5
@@ -151,6 +130,8 @@ def main():
                         if hero_rect.colliderect(hill):
                             hero.speed_x = 0
                             rect_x = 0
+                            print 'collision'
+                            break
                 elif event.key == pygame.K_UP:
                     hero.speed_y = -5
                     rect_y = -5
@@ -159,6 +140,8 @@ def main():
                         if hero_rect.colliderect(hill):
                             hero.speed_y = 0
                             rect_y = 0
+                            print 'collision'
+                            break
                 elif event.key == pygame.K_DOWN:
                     hero.speed_y = 5
                     rect_y = 5
@@ -166,6 +149,8 @@ def main():
                         if hero_rect.colliderect(hill):
                             hero.speed_y = 0
                             rect_y = 0
+                            print 'collision'
+                            break
             
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
