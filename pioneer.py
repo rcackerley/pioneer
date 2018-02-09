@@ -3,7 +3,7 @@ from pygame.locals import *
 import random
 
 class Hero():
-    def __init__(self, x, y):
+    def __init__(self, x, y,):
         self.x = x
         self.y = y
         self.speed_x = 0
@@ -18,10 +18,14 @@ class Hero():
         scaled_hero = pygame.transform.scale(hero_image, (75, 75))
         screen.blit(scaled_hero, (self.x, self.y))
 
-class Texture():
+class Texture(pygame.sprite.Sprite):
     def __init__(self, image, id):
         self.image = image
         self.id = id
+        self.width = 40
+        self.height = 40
+        
+    
 
 
 def main():
@@ -110,6 +114,9 @@ def main():
 
     # Game initialization
     hero = Hero(250, 250)
+    hero_rect = Rect(250,250, 75,75)
+    rect_x = 0
+    rect_y = 0
     stop_game = False
 
     while not stop_game:
@@ -124,26 +131,38 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = -5
+                    rect_x = -5
+                    if hero_rect.colliderect(mountain):
+                        hero.speed_x = 0
+                        rect_x = 0
                 elif event.key == pygame.K_RIGHT:
                     hero.speed_x = 5
+                    rect_x = 5
                 elif event.key == pygame.K_UP:
                     hero.speed_y = -5
+                    rect_y = -5
                 elif event.key == pygame.K_DOWN:
                     hero.speed_y = 5
+                    rect_y = 5
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = 0
+                    rect_x = 0
                 elif event.key == pygame.K_RIGHT:
                     hero.speed_x = 0
+                    rect_x = 0
                 elif event.key == pygame.K_UP:
                     hero.speed_y = 0
+                    rect_y = 0
                 elif event.key == pygame.K_DOWN:
                     hero.speed_y = 0
+                    rect_y = 0
             #################
 
         # Game logic
         hero.update()
-
+        hero_rect.x += rect_x
+        hero_rect.y += rect_y
         # Draw background
         screen.fill(BLACK)
         #loop through each row
