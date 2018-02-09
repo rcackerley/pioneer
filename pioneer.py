@@ -106,6 +106,7 @@ def main():
                 stop_game = True
             
             #### Hero Movement
+            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = -5
