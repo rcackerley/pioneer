@@ -109,43 +109,43 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    hero.speed_x = -5
-                    rect_x = -5
-                    # print hero_rect.colliderect(mountain)
-                    # print hero.x
-                    # print hero.y
+                    hero.speed_x = -3
+                    rect_x = -3
                     
                     for hill in mountains:
-                        if hero_rect.colliderect(hill):
+                        if hero.x == hill.x and hero.y == hill.y:
                             hero.speed_x = 0
                             rect_x = 0
                             print 'collision'
+                            print hero.x
+                            print hero.y
+                            print hill.x
+                            print hill.y
                             break
-                    # print mountains
                         
                 elif event.key == pygame.K_RIGHT:
-                    hero.speed_x = 5
-                    rect_x = 5
-
+                    hero.speed_x = 3
+                    rect_x = 3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
                             hero.speed_x = 0
                             rect_x = 0
                             print 'collision'
                             break
-                elif event.key == pygame.K_UP:
-                    hero.speed_y = -5
-                    rect_y = -5
 
+                elif event.key == pygame.K_UP:
+                    hero.speed_y = -3
+                    rect_y = -3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
                             hero.speed_y = 0
                             rect_y = 0
                             print 'collision'
                             break
+
                 elif event.key == pygame.K_DOWN:
-                    hero.speed_y = 5
-                    rect_y = 5
+                    hero.speed_y = 3
+                    rect_y = 3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
                             hero.speed_y = 0
