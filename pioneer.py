@@ -25,9 +25,14 @@ class Texture(Rect):
         self.x = 0
         self.y = 0
 
-        
-    
-
+class item(Rect):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.collected = False
+    def render(self, screen):
+        log_item = pygame.image.load('images/textures/log.png').convert_alpha()
+        screen.blit(log_item, (self.x, self.y))
 
 def main():
     width = 15
@@ -90,8 +95,14 @@ def main():
     #         tilemap[rw][cl] = tile
 
     # Game initialization
-    hero = Hero(300, 300)
-    hero_rect = Rect(300,300, 75,75)
+    hero = Hero(100, 500)
+    hero_rect = Rect(100,500, 75,75)
+    log = item(300,175) 
+    log2 = item(245,455) 
+    log3 = item(400,150)
+    log4 = item(185,400)
+    log5 = item(300,440)
+    log_icon = item(width * TILESIZE - 450,height * TILESIZE + 20)
     rect_x = 0
     rect_y = 0
 
@@ -111,26 +122,39 @@ def main():
                 if event.key == pygame.K_LEFT:
                     hero.speed_x = -3
                     rect_x = -3
+                    print hero.x, hero.y
+                    print hero_rect.x, hero_rect.y
                     
                     for hill in mountains:
-                        if hero.x == hill.x and hero.y == hill.y:
-                            hero.speed_x = 0
-                            rect_x = 0
+                        if hero_rect.colliderect(hill):
+                            hero.speed_x = 1
+                            rect_x = 1
                             print 'collision'
-                            print hero.x
-                            print hero.y
                             print hill.x
                             print hill.y
+                            print hero.x, hero.y
+                            print hero_rect.x, hero_rect.y
                             break
+                    for watery in waters:
+                        if hero_rect.colliderect(watery):
+                            hero.speed_x = 1
+                            rect_x = 1
+                            break
+                    
                         
                 elif event.key == pygame.K_RIGHT:
                     hero.speed_x = 3
                     rect_x = 3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
-                            hero.speed_x = 0
-                            rect_x = 0
+                            hero.speed_x = -1
+                            rect_x = -1
                             print 'collision'
+                            break
+                    for watery in waters:
+                        if hero_rect.colliderect(watery):
+                            hero.speed_x = -1
+                            rect_x = -1
                             break
 
                 elif event.key == pygame.K_UP:
@@ -138,9 +162,14 @@ def main():
                     rect_y = -3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
-                            hero.speed_y = 0
-                            rect_y = 0
+                            hero.speed_y = 1
+                            rect_y = 1
                             print 'collision'
+                            break
+                    for watery in waters:
+                        if hero_rect.colliderect(watery):
+                            hero.speed_y = 1
+                            rect_y = 1
                             break
 
                 elif event.key == pygame.K_DOWN:
@@ -148,9 +177,14 @@ def main():
                     rect_y = 3
                     for hill in mountains:
                         if hero_rect.colliderect(hill):
-                            hero.speed_y = 0
-                            rect_y = 0
+                            hero.speed_y = -1
+                            rect_y = -1
                             print 'collision'
+                            break
+                    for watery in waters:
+                        if hero_rect.colliderect(watery):
+                            hero.speed_y = -1
+                            rect_y = -1
                             break
             
             if event.type == pygame.KEYUP:
@@ -176,14 +210,49 @@ def main():
         screen.fill(BLACK)
         #loop through each row
         mountains = []
+        waters = []
         for row in range(height):
             for column in range(width):
                 screen.blit(tilemap[row][column], (column*TILESIZE,row*TILESIZE))
                 if tilemap[row][column] == mountain.image:
                     mountains.append(Rect(column * TILESIZE, row * TILESIZE, 40, 40))
+                elif tilemap[row][column] == water.image:
+                    waters.append(Rect(column * TILESIZE, row * TILESIZE, 40, 40))
                     
-        screen.blit(label, (width * TILESIZE - 100,height * TILESIZE + 35))
+        screen.blit(label, (width * TILESIZE - 575,height * TILESIZE + 28))
+        
         # Game display
+        if hero_rect.colliderect(log):
+            log.collected = True
+            print 'collected'
+            log.x = width * TILESIZE - 450
+            log.y = height * TILESIZE + 10
+        if hero_rect.colliderect(log2):
+            log2.collected = True
+            print 'collected'
+            log2.x = width * TILESIZE - 400
+            log2.y = height * TILESIZE + 10
+        if hero_rect.colliderect(log3):
+            log3.collected = True
+            print 'collected'
+            log3.x = width * TILESIZE - 350
+            log3.y = height * TILESIZE + 10
+        if hero_rect.colliderect(log4):
+            log4.collected = True
+            print 'collected'
+            log4.x = width * TILESIZE - 300
+            log4.y = height * TILESIZE + 10
+        if hero_rect.colliderect(log5):
+            log5.collected = True
+            print 'collected'
+            log5.x = width * TILESIZE - 250
+            log5.y = height * TILESIZE + 10
+        
+        log.render(screen)
+        log2.render(screen)
+        log3.render(screen)
+        log4.render(screen)
+        log5.render(screen)
         hero.render(screen)
         pygame.display.update()
         clock.tick(60)
